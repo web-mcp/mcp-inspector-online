@@ -27,6 +27,49 @@ export const getMCPProxyAddress = (config: InspectorConfig): string => {
   return `${window.location.protocol}//${window.location.hostname}:${proxyPort}`;
 };
 
+export const getProxyMCPURL = (
+  config: InspectorConfig,
+  option: {
+    transportType?: "stdio" | "sse" | "streamable-http";
+    sseUrl?: string;
+    command?: string;
+    args?: string;
+    env?: Record<string, string>;
+  },
+) => {
+  let mcpProxyServerUrl: URL;
+  const { transportType = "sse", sseUrl, command, args, env } = option;
+
+  if (!config.MCP_PROXY_FULL_ADDRESS.value && transportType != "stdio") {
+    mcpProxyServerUrl = new URL(sseUrl || "http://localhost:3000/sse");
+    return mcpProxyServerUrl;
+  }
+
+  switch (transportType) {
+    case "stdio":
+      mcpProxyServerUrl = new URL(`${getMCPProxyAddress(config)}/stdio`);
+      mcpProxyServerUrl.searchParams.append("command", command || "");
+      mcpProxyServerUrl.searchParams.append("args", args || "");
+      mcpProxyServerUrl.searchParams.append("env", JSON.stringify(env));
+      break;
+    case "sse":
+      mcpProxyServerUrl = new URL(`${getMCPProxyAddress(config)}/sse`);
+      mcpProxyServerUrl.searchParams.append("url", sseUrl || "");
+      break;
+    case "streamable-http":
+      mcpProxyServerUrl = new URL(`${getMCPProxyAddress(config)}/mcp`);
+      mcpProxyServerUrl.searchParams.append("url", sseUrl || "");
+      break;
+    default:
+      mcpProxyServerUrl = new URL(`${getMCPProxyAddress(config)}/sse`);
+      mcpProxyServerUrl.searchParams.append("url", sseUrl || "");
+      break;
+  }
+
+  mcpProxyServerUrl.searchParams.append("transportType", transportType);
+  return mcpProxyServerUrl;
+};
+
 export const getMCPServerRequestTimeout = (config: InspectorConfig): number => {
   return config.MCP_SERVER_REQUEST_TIMEOUT.value as number;
 };
@@ -67,7 +110,7 @@ export const getInitialTransportType = ():
     (localStorage.getItem("lastTransportType") as
       | "stdio"
       | "sse"
-      | "streamable-http") || "stdio"
+      | "streamable-http") || "sse"
   );
 };
 

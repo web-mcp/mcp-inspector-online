@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "dev": "vite --port 6274",
+    "lib": "vite build -c vite.library.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview --port 6274",
@@ -77,6 +78,7 @@
     "ts-jest": "^29.4.0",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.38.0",
-    "vite": "^7.1.11"
+    "vite": "^7.1.11",
+    "vite-plugin-dts": "^4.5.4"
   }
 }

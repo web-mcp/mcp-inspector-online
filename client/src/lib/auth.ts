@@ -138,11 +138,11 @@ export class InspectorOAuthClientProvider implements OAuthClientProvider {
   }
 
   get redirectUrl() {
-    return window.location.origin + "/oauth/callback";
+    return window.location.origin + "/inspector/oauth/callback";
   }
 
   get debugRedirectUrl() {
-    return window.location.origin + "/oauth/callback/debug";
+    return window.location.origin + "/inspector/oauth/callback/debug";
   }
 
   get redirect_uris() {

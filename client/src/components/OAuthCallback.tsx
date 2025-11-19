@@ -71,7 +71,7 @@ const OAuthCallback = ({ onConnect }: OAuthCallbackProps) => {
     };
 
     handleCallback().finally(() => {
-      window.history.replaceState({}, document.title, "/");
+      window.history.replaceState({}, document.title, "/inspector");
     });
   }, [toast, onConnect]);
 
