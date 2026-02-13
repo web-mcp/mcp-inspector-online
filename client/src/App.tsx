@@ -48,8 +48,8 @@ import {
   useDraggableSidebar,
 } from "./lib/hooks/useDraggablePane";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   AppWindow,
   Bell,
@@ -154,7 +154,7 @@ const App = () => {
     () => {
       return (
         (localStorage.getItem("lastConnectionType") as "direct" | "proxy") ||
-        "proxy"
+        "direct"
       );
     },
   );
@@ -1232,7 +1232,7 @@ const App = () => {
     </TabsContent>
   );
 
-  if (window.location.pathname === "/oauth/callback") {
+  if (window.location.pathname === "/inspector/oauth/callback") {
     const OAuthCallback = React.lazy(
       () => import("./components/OAuthCallback"),
     );
@@ -1243,7 +1243,7 @@ const App = () => {
     );
   }
 
-  if (window.location.pathname === "/oauth/callback/debug") {
+  if (window.location.pathname === "/inspector/oauth/callback/debug") {
     const OAuthDebugCallback = React.lazy(
       () => import("./components/OAuthDebugCallback"),
     );

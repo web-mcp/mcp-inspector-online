@@ -15,6 +15,7 @@ import {
   Copy,
   CheckCheck,
   Server,
+  Compass,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,6 +43,7 @@ import CustomHeaders from "./CustomHeaders";
 import { CustomHeaders as CustomHeadersType } from "@/lib/types/customHeaders";
 import { useToast } from "../lib/hooks/useToast";
 import IconDisplay, { WithIcons } from "./IconDisplay";
+import SidebarShare from "./SidebarShare";
 
 interface SidebarProps {
   connectionStatus: ConnectionStatus;
@@ -239,7 +241,7 @@ const Sidebar = ({
       <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-border">
         <div className="flex items-center">
           <h1 className="ml-2 text-lg font-semibold">
-            MCP Inspector v{version}
+            MCP Inspector Online v{version}
           </h1>
         </div>
       </div>
@@ -604,7 +606,9 @@ const Sidebar = ({
                       <Input
                         readOnly
                         placeholder="Redirect URL"
-                        value={window.location.origin + "/oauth/callback"}
+                        value={
+                          window.location.origin + "/inspector/oauth/callback"
+                        }
                         className="font-mono"
                       />
                       <label className="text-sm font-medium">Scope</label>
@@ -848,6 +852,15 @@ const Sidebar = ({
                 </Select>
               </div>
             )}
+
+            <SidebarShare
+              sseUrl={sseUrl}
+              transportType={transportType}
+              command={command}
+              args={args}
+              connectionStatus={connectionStatus}
+              connectionType={connectionType}
+            />
           </div>
         </div>
       </div>
@@ -884,8 +897,18 @@ const Sidebar = ({
                 href="https://modelcontextprotocol.io/docs/tools/debugging"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="hidden"
               >
                 <Bug className="w-4 h-4 text-foreground" />
+              </a>
+            </Button>
+            <Button variant="ghost" title="MCP Servers" asChild>
+              <a
+                href="/docs/inspector/MCP-Servers"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Compass className="w-4 h-4 text-foreground" />
               </a>
             </Button>
             <Button
@@ -894,7 +917,7 @@ const Sidebar = ({
               asChild
             >
               <a
-                href="https://github.com/modelcontextprotocol/inspector"
+                href="https://github.com/web-mcp/mcp-inspector-online"
                 target="_blank"
                 rel="noopener noreferrer"
               >

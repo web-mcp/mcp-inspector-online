@@ -486,7 +486,7 @@ export function useConnection({
         await checkProxyHealth();
       } catch {
         setConnectionStatus("error-connecting-to-proxy");
-        return;
+        // return;
       }
     }
 
